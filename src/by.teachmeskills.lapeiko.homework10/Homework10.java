@@ -1,6 +1,4 @@
 package by.teachmeskills.lapeiko.homework10;
-
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Homework10 {
@@ -21,7 +19,7 @@ public class Homework10 {
                 System.out.println(StringUtils.getSecureCardNumber(str));
             }
             case 3 -> {
-                System.out.println("Lapeiko Damir");
+                System.out.print("Lapeiko Damir");
                 System.out.println(StringUtils.initialsOfName("Lapeiko", "Damir",
                         ""));
             }
@@ -38,7 +36,7 @@ public class Homework10 {
                 System.out.println(StringUtils.isReliablePassword(str));
             }
             case 6 -> {
-                System.out.println("Write your email");
+                System.out.print("Write your email");
                 String str = sc1.nextLine();
                 System.out.println("Is this line similar to email?");
                 System.out.println(StringUtils.isSimilarStringToEmail(str));

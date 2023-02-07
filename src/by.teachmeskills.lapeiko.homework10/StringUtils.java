@@ -93,11 +93,10 @@ public class StringUtils {
     public static boolean isReliablePassword(String str) {
         boolean isReliable = false;
         if (str.length() >= 8) {
-            char[] password = str.toCharArray();
-            for (char i : password) {
-                if (Character.isLowerCase(i)) {
-                    if (Character.isUpperCase(i)) {
-                        if (Character.isDigit(i)) {
+            for (int i = 0; i < str.length(); i++) {
+                if (String.valueOf(Character.isLowerCase(i))) {
+                    if (String.valueOf(Character.isUpperCase(i))) {
+                        if (String.valueOf(Character.isDigit(i))) {
                             isReliable = true;
                         }
                     }
