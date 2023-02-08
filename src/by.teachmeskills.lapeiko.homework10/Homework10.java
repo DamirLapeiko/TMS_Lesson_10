@@ -36,7 +36,7 @@ public class Homework10 {
                 System.out.println(StringUtils.isReliablePassword(str));
             }
             case 6 -> {
-                System.out.print("Write your email");
+                System.out.print("Write your email: ");
                 String str = sc1.nextLine();
                 System.out.println("Is this line similar to email?");
                 System.out.println(StringUtils.isSimilarStringToEmail(str));
