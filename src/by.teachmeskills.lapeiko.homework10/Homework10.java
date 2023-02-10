@@ -19,7 +19,7 @@ public class Homework10 {
                 System.out.println(StringUtils.getSecureCardNumber(str));
             }
             case 3 -> {
-                System.out.print("Lapeiko Damir");
+                System.out.println("Lapeiko Damir");
                 System.out.println(StringUtils.initialsOfName("Lapeiko", "Damir",
                         ""));
             }

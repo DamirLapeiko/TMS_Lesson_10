@@ -9,7 +9,7 @@ public class StringUtils {
      Примеры: “ Hello world ” ➡ “Hello world” “Oleg Grigorijan” ➡ “Oleg Grigorijan” “ “ ➡ “”
      */
     public static String normalizeString(String str) {
-        if (str.length() == 0) {
+        if (str.isBlank()) {
             throw new IllegalArgumentException("Error. Inadmissible size of line. Try again.");
         }
         while (str.contains("  ")) {
@@ -24,16 +24,15 @@ public class StringUtils {
     приводит к строке формата “**** **** **** NNNN”, где NNNN – последние 4 цифры номера
     Пример: 1122334455667788 ➡ “**** ** ** 7788”
      */
+    public static final int CARD_LENGTH = 16;
+
     public static String getSecureCardNumber(String str) {
-        if (str.length() != 16) {
+        if (str.length() != CARD_LENGTH) {
             throw new IllegalArgumentException("Error. Inadmissible size of card number. Try again.");
         }
         char[] chars = str.toCharArray();
-        for (int j = 0; j < chars.length; j++) {
+        for (int j = 0; j < 11; j++) {
             chars[j] = '*';
-            if (j == 11) {
-                break;
-            }
         }
         str = String.valueOf(chars);
         return str;
@@ -48,14 +47,14 @@ public class StringUtils {
     “Смит”, “Джеймс”, “” ➡ “Смит Д.”
      */
     public static String initialsOfName(String lastName, String firstName, String patronymic) {
-        if (lastName.length() == 0 || firstName.length() == 0) {
+        if (lastName.isEmpty() || firstName.isEmpty()) {
             throw new IllegalArgumentException("Error. Don't be anonymous. Represent yourself");
         }
         firstName = firstName.charAt(0) + ".";
         if (!patronymic.equals("")) {
             patronymic = patronymic.charAt(0) + ".";
         }
-        String fullName = lastName + " " + firstName + patronymic;
+        String fullName = lastName + " " + firstName + " " + patronymic;
         return fullName;
     }
 
@@ -66,19 +65,22 @@ public class StringUtils {
     регистра и 7 цифр Примеры: “MP1234567” ➡ Да “MP123456” ➡ Нет “PPP234567”
     ➡ Нет “ЯЯ1234567” ➡ Нет “PP123456P” ➡ Нет “mp1234567" ➡ Нет
      */
+    public static final int PASSPORT_LENGTH = 9;
+
     public static boolean isRightNumberOfBelPassport(String str) {
-        boolean isRight = false;
-        if (str.length() == 9) {
-            if (str.charAt(0) >= 'A' && str.charAt(0) <= 'Z' &&
-                    str.charAt(1) >= 'A' && str.charAt(1) <= 'Z') {
-                for (int i = 2; i < str.length(); i++) {
-                    if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
-                        isRight = true;
+        if (str.length() == PASSPORT_LENGTH) {
+            for (int i = 0; i < 2; i++) {
+                if (str.charAt(0) >= 'A' && str.charAt(0) <= 'Z' &&
+                        str.charAt(1) >= 'A' && str.charAt(1) <= 'Z') {
+                    for (int j = 2; j < str.length(); j++) {
+                        if (str.charAt(j) > '0' && str.charAt(j) <= '9') {
+                            return true;
+                        }
                     }
                 }
             }
         }
-        return isRight;
+        return false;
     }
 
     /* Task5
@@ -94,13 +96,21 @@ public class StringUtils {
         boolean isReliable = false;
         if (str.length() >= 8) {
             char[] chars = str.toCharArray();
+            boolean hasLower = false;
+            boolean hasUpper = false;
+            boolean hasDigit = false;
             for (int i = 0; i < chars.length; i++) {
-                if (Character.isLowerCase(i)) {
-                    if (Character.isUpperCase(i)) {
-                        if (Character.isDigit(i)) {
-                            isReliable = true;
-                        }
-                    }
+                if (!hasLower && Character.isLowerCase(i)) {
+                    hasLower = true;
+                }
+                if (!hasUpper && Character.isUpperCase(i)) {
+                    hasUpper = true;
+                }
+                if (!hasDigit && Character.isDigit(i)) {
+                    hasDigit = true;
+                }
+                if (hasLower && hasUpper && hasDigit) {
+                    isReliable = true;
                 }
             }
         }
@@ -120,9 +130,10 @@ public class StringUtils {
         if (str.isBlank()) {
             throw new IllegalArgumentException("Error. Don't be anonymous. Write your email.");
         }
+        int atIndex = str.indexOf('@');
         if (str.contains("@") && !str.contains(" ")) {
-            if (str.indexOf('@') == str.lastIndexOf('@')) {
-                return str.indexOf('@') < str.length() - 1 && str.indexOf('@') > 0;
+            if (atIndex == str.lastIndexOf('@')) {
+                return atIndex < str.length() - 1 && atIndex > 0;
             }
         }
         return false;
