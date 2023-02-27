@@ -24,18 +24,14 @@ public class StringUtils {
     приводит к строке формата “**** **** **** NNNN”, где NNNN – последние 4 цифры номера
     Пример: 1122334455667788 ➡ “**** ** ** 7788”
      */
-    public static final int CARD_LENGTH = 16;
+    public static final int CARD_LENGTH = 4 * 4;
+    public static final int SECURE_CARD_NUMBER_DIGITS_LENGTH = 4;
 
     public static String getSecureCardNumber(String str) {
         if (str.length() != CARD_LENGTH) {
             throw new IllegalArgumentException("Error. Inadmissible size of card number. Try again.");
         }
-        char[] chars = str.toCharArray();
-        for (int j = 0; j < 11; j++) {
-            chars[j] = '*';
-        }
-        str = String.valueOf(chars);
-        return str;
+        return "**** **** **** " + str.substring(CARD_LENGTH - SECURE_CARD_NUMBER_DIGITS_LENGTH);
     }
 
     /* Task3
@@ -50,12 +46,13 @@ public class StringUtils {
         if (lastName.isEmpty() || firstName.isEmpty()) {
             throw new IllegalArgumentException("Error. Don't be anonymous. Represent yourself");
         }
-        firstName = firstName.charAt(0) + ".";
-        if (!patronymic.equals("")) {
-            patronymic = patronymic.charAt(0) + ".";
+        char firstNameLetter = firstName.charAt(0);
+        if (patronymic.isEmpty()) {
+            return "%s %s.".formatted(lastName, firstNameLetter);
+        } else {
+            char patronymicLetter = patronymic.charAt(0);
+            return "%s %s.".formatted(lastName, firstNameLetter, patronymicLetter);
         }
-        String fullName = lastName + " " + firstName + " " + patronymic;
-        return fullName;
     }
 
     /* Task4
@@ -65,22 +62,26 @@ public class StringUtils {
     регистра и 7 цифр Примеры: “MP1234567” ➡ Да “MP123456” ➡ Нет “PPP234567”
     ➡ Нет “ЯЯ1234567” ➡ Нет “PP123456P” ➡ Нет “mp1234567" ➡ Нет
      */
-    public static final int PASSPORT_LENGTH = 9;
+    public static final int PASSPORT_SERIES_LENGTH = 2;
+    public static final int PASSPORT_DIGITS_LENGTH = 7;
+    public static final int PASSPORT_LENGTH = PASSPORT_SERIES_LENGTH + PASSPORT_DIGITS_LENGTH;
 
     public static boolean isRightNumberOfBelPassport(String str) {
-        if (str.length() == PASSPORT_LENGTH) {
-            for (int i = 0; i < 2; i++) {
-                if (str.charAt(0) >= 'A' && str.charAt(0) <= 'Z' &&
-                        str.charAt(1) >= 'A' && str.charAt(1) <= 'Z') {
-                    for (int j = 2; j < str.length(); j++) {
-                        if (str.charAt(j) > '0' && str.charAt(j) <= '9') {
-                            return true;
-                        }
-                    }
-                }
+        if (str.length() != PASSPORT_LENGTH) {
+            return false;
+        }
+        for (int i = 0; i < PASSPORT_SERIES_LENGTH; i++) {
+            if (!(str.charAt(0) >= 'A' && str.charAt(0) <= 'Z' &&
+                    str.charAt(1) >= 'A' && str.charAt(1) <= 'Z')) {
+                return false;
             }
         }
-        return false;
+        for (int j = PASSPORT_SERIES_LENGTH; j < PASSPORT_LENGTH; j++) {
+            if (!(str.charAt(j) > '0' && str.charAt(j) <= '9')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /* Task5
@@ -111,6 +112,7 @@ public class StringUtils {
                 }
                 if (hasLower && hasUpper && hasDigit) {
                     isReliable = true;
+                    break;
                 }
             }
         }
