@@ -1,4 +1,4 @@
-package by.teachmeskills.lapeiko.homework10.utils;
+package by.teachmeskills.lapeiko.homework10;
 
 public class StringUtils {
     public static final int CARD_LENGTH = 4 * 4;

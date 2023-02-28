@@ -1,4 +1,5 @@
-package by.teachmeskills.lapeiko.homework10.utils;
+package by.teachmeskills.lapeiko.homework10;
+
 import java.util.Scanner;
 
 public class Homework10 {
