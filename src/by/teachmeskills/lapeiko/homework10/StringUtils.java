@@ -1,6 +1,12 @@
 package by.teachmeskills.lapeiko.homework10;
 
 public class StringUtils {
+    public static final int CARD_LENGTH = 4 * 4;
+    public static final int SECURE_CARD_NUMBER_DIGITS_LENGTH = 4;
+    public static final int PASSPORT_SERIES_LENGTH = 2;
+    public static final int PASSPORT_DIGITS_LENGTH = 7;
+    public static final int PASSPORT_LENGTH = PASSPORT_SERIES_LENGTH + PASSPORT_DIGITS_LENGTH;
+
     /* Task1
      Пользователи часто в полях ввода оставляют случайные лишние пробелы.
      Создать глобальную (т.е. static) функцию, которая нормализует строку.
@@ -24,9 +30,6 @@ public class StringUtils {
     приводит к строке формата “**** **** **** NNNN”, где NNNN – последние 4 цифры номера
     Пример: 1122334455667788 ➡ “**** ** ** 7788”
      */
-    public static final int CARD_LENGTH = 4 * 4;
-    public static final int SECURE_CARD_NUMBER_DIGITS_LENGTH = 4;
-
     public static String getSecureCardNumber(String str) {
         if (str.length() != CARD_LENGTH) {
             throw new IllegalArgumentException("Error. Inadmissible size of card number. Try again.");
@@ -51,7 +54,7 @@ public class StringUtils {
             return "%s %s.".formatted(lastName, firstNameLetter);
         } else {
             char patronymicLetter = patronymic.charAt(0);
-            return "%s %s.".formatted(lastName, firstNameLetter, patronymicLetter);
+            return "%s %s. %s.".formatted(lastName, firstNameLetter, patronymicLetter);
         }
     }
 
@@ -62,9 +65,6 @@ public class StringUtils {
     регистра и 7 цифр Примеры: “MP1234567” ➡ Да “MP123456” ➡ Нет “PPP234567”
     ➡ Нет “ЯЯ1234567” ➡ Нет “PP123456P” ➡ Нет “mp1234567" ➡ Нет
      */
-    public static final int PASSPORT_SERIES_LENGTH = 2;
-    public static final int PASSPORT_DIGITS_LENGTH = 7;
-    public static final int PASSPORT_LENGTH = PASSPORT_SERIES_LENGTH + PASSPORT_DIGITS_LENGTH;
 
     public static boolean isRightNumberOfBelPassport(String str) {
         if (str.length() != PASSPORT_LENGTH) {
@@ -133,7 +133,7 @@ public class StringUtils {
             throw new IllegalArgumentException("Error. Don't be anonymous. Write your email.");
         }
         int atIndex = str.indexOf('@');
-        if (str.contains("@") && !str.contains(" ")) {
+        if (atIndex != -1 && !str.contains(" ")) {
             if (atIndex == str.lastIndexOf('@')) {
                 return atIndex < str.length() - 1 && atIndex > 0;
             }
